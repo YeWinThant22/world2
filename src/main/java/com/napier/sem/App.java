@@ -85,7 +85,7 @@ public class App {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT country.Name, country.Continent, country.Region, country.Population "
+                    "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, country.Capital "
                             + "FROM country "
                             + "ORDER BY country.Population DESC";
             // Execute SQL statement
@@ -95,10 +95,12 @@ public class App {
             while (rset.next())
             {
                 country cou = new country();
+                cou.country_code = rset.getString("country.Code");
                 cou.country_name = rset.getString("country.Name");
                 cou.continent = rset.getString("country.Continent");
                 cou.region = rset.getString("country.Region");
                 cou.population = rset.getInt("country.Population");
+                cou.capital = rset.getInt("country.Capital");
                 countries.add(cou);
             }
             return countries;
@@ -118,13 +120,13 @@ public class App {
     public void printPopulation(ArrayList<country> countries)
     {
         // Print header
-        System.out.println(String.format("%-50s %-30s %-30s %-30s", "Name", "Continent", "Region", "Population"));
+        System.out.println(String.format("%-30s %-50s %-30s %-30s %-30s %-30s", "Code", "Name", "Continent", "Region", "Population", "Capital"));
         // Loop over all employees in the list
         for (country count : countries)
         {
             String count_string =
-                    String.format("%-50s %-30s %-30s %-30s",
-                            count.country_name, count.continent, count.region, count.population);
+                    String.format("%-30s %-50s %-30s %-30s %-30s %-30s",
+                            count.country_code, count.country_name, count.continent, count.region, count.population, count.capital);
             System.out.println(count_string);
         }
     }
