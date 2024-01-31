@@ -33,5 +33,5 @@ public class country {
     /**
      * Capital
      */
-    public int captial;
+    public int capital;
 }

@@ -85,7 +85,7 @@ public class App {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT country.Continent, country.Region, country.Population "
+                    "SELECT country.Name, country.Continent, country.Region, country.Population "
                             + "FROM country "
                             + "ORDER BY country.Population DESC";
             // Execute SQL statement
@@ -95,6 +95,7 @@ public class App {
             while (rset.next())
             {
                 country cou = new country();
+                cou.country_name = rset.getString("country.Name");
                 cou.continent = rset.getString("country.Continent");
                 cou.region = rset.getString("country.Region");
                 cou.population = rset.getInt("country.Population");
@@ -117,13 +118,13 @@ public class App {
     public void printPopulation(ArrayList<country> countries)
     {
         // Print header
-        System.out.println(String.format("%-30s %-30s %-20s", "Continent", "Region", "Population"));
+        System.out.println(String.format("%-50s %-30s %-30s %-30s", "Name", "Continent", "Region", "Population"));
         // Loop over all employees in the list
         for (country count : countries)
         {
             String count_string =
-                    String.format("%-30s %-30s %-20s",
-                            count.continent, count.region, count.population);
+                    String.format("%-50s %-30s %-30s %-30s",
+                            count.country_name, count.continent, count.region, count.population);
             System.out.println(count_string);
         }
     }
