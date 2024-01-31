@@ -63,7 +63,7 @@ public class App {
         // Connect to database
         a.connect();
 
-        // Extract employee salary information
+        // Extract country information
         ArrayList<country> countries = a.getCountry();
 
         //Printing Population Countries Ascending
@@ -85,9 +85,10 @@ public class App {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, country.Capital "
-                            + "FROM country "
-                            + "ORDER BY country.Population DESC";
+                    "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name "
+                            + "FROM country, city "
+                            + "WHERE country.Capital = city.ID "
+                            + "ORDER BY country.Population DESC ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Extract employee information
@@ -95,12 +96,12 @@ public class App {
             while (rset.next())
             {
                 country cou = new country();
-                cou.country_code = rset.getString("country.Code");
-                cou.country_name = rset.getString("country.Name");
-                cou.continent = rset.getString("country.Continent");
-                cou.region = rset.getString("country.Region");
-                cou.population = rset.getInt("country.Population");
-                cou.capital = rset.getInt("country.Capital");
+                cou.setCountry_code(rset.getString("country.Code"));
+                cou.setCountry_name(rset.getString("country.Name"));
+                cou.setContinent(rset.getString("country.Continent"));
+                cou.setRegion(rset.getString("country.Region"));
+                cou.setPopulation(rset.getInt("country.Population"));
+                cou.setCity_name(rset.getString("city.Name"));
                 countries.add(cou);
             }
             return countries;
@@ -120,27 +121,28 @@ public class App {
     public void printPopulation(ArrayList<country> countries)
     {
         // Print top border
-        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+--");
 
         // Print header
-        System.out.println(String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-20s |", "Code", "Name", "Continent", "Region", "Population", "Capital"));
+        System.out.println(String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-35s |", "Code", "Name", "Continent", "Region", "Population", "Capital"));
         // Print header-bottom border
-        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+--");
 
         // Loop over all employees in the list
         for (country count : countries)
         {
             // Format population with commas and three decimal places
             DecimalFormat numformat = new DecimalFormat("#,###,###");
-            String formattedPopulation = numformat.format(count.population);
+            String formattedPopulation = numformat.format(count.getPopulation());
 
             String count_string =
-                    String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-20s |",
-                            count.country_code, count.country_name, count.continent, count.region, formattedPopulation, count.capital);
+                    String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-35s |",
+                            count.getCountry_code(), count.getCountry_name(), count.getContinent(), count.getRegion(), formattedPopulation, count.getCity_name());
             System.out.println(count_string);
         }
         // Print bottom border
-        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+--");
 
     }
+
 }
