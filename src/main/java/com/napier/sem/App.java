@@ -2,7 +2,7 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
-
+import java.text.DecimalFormat;
 
 public class App {
     /**
@@ -64,7 +64,7 @@ public class App {
         a.connect();
 
         // Extract employee salary information
-        ArrayList<country> countries = a.getCity();
+        ArrayList<country> countries = a.getCountry();
 
         //Printing Population Countries Ascending
         a.printPopulation(countries);
@@ -77,7 +77,7 @@ public class App {
      * Gets all the current employees and salaries.
      * @return A list of all employees and salaries, or null if there is an error.
      */
-    public ArrayList<country> getCity()
+    public ArrayList<country> getCountry()
     {
         try
         {
@@ -119,15 +119,28 @@ public class App {
      */
     public void printPopulation(ArrayList<country> countries)
     {
+        // Print top border
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+
         // Print header
-        System.out.println(String.format("%-30s %-50s %-30s %-30s %-30s %-30s", "Code", "Name", "Continent", "Region", "Population", "Capital"));
+        System.out.println(String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-20s |", "Code", "Name", "Continent", "Region", "Population", "Capital"));
+        // Print header-bottom border
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+
         // Loop over all employees in the list
         for (country count : countries)
         {
+            // Format population with commas and three decimal places
+            DecimalFormat numformat = new DecimalFormat("#,###,###");
+            String formattedPopulation = numformat.format(count.population);
+
             String count_string =
-                    String.format("%-30s %-50s %-30s %-30s %-30s %-30s",
-                            count.country_code, count.country_name, count.continent, count.region, count.population, count.capital);
+                    String.format("| %-5s | %-50s | %-20s | %-30s | %-20s | %-20s |",
+                            count.country_code, count.country_name, count.continent, count.region, formattedPopulation, count.capital);
             System.out.println(count_string);
         }
+        // Print bottom border
+        System.out.println("+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------------------+---------");
+
     }
 }
