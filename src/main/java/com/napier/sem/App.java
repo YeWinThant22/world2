@@ -69,9 +69,6 @@ public class App {
         // Array Countries, Region, Continents with the population largest to smallest
         // Extract country in the world from a class
         ArrayList<country> countries = cw.getCountry(a.con);
-        // Create a new country in the word object
-        CountryMethod cw = new CountryMethod();
-        CountryOutput coutput = new CountryOutput();
 
         // Array Countries, Region, Continents with the population largest to smallest
         // Extract country in the world from a class
